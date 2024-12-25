@@ -35,9 +35,15 @@ jobs:
     - name: Preserve Custom Files
       run: |
         # Check and restore custom workflows and docker-compose if needed
-        git checkout --ours .github/workflows/*
+        git checkout --ours .github/workflows/custom-build.yml
+        git checkout --ours .github/workflows/manual-run.yml
+        git checkout --ours .github/workflows/rebuild-container.yml
+        git checkout --ours .github/workflows/repo-update.yml
+        git checkout --ours .github/workflows/sync-upstream.yml
+        git checkout --ours .github/workflows/tmodloader-check.yml
+        git checkout --ours .github/workflows/tmodloader-stable-check.yml
         git checkout --ours docker-compose.yml
-        git add path/to/custom-workflow.yml path/to/docker-compose.yml
+        git add .github/workflows/custom-build.yml .github/workflows/manual-run.yml .github/workflows/rebuild-container.yml .github/workflows/repo-update.yml .github/workflows/sync-upstream.yml .github/workflows/tmodloader-check.yml .github/workflows/tmodloader-stable-check.yml
         git commit --amend --no-edit
 
     - name: Checkout Docker Compose and Build Containers
