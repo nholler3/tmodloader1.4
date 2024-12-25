@@ -43,7 +43,7 @@ jobs:
         git checkout --ours .github/workflows/tmodloader-check.yml
         git checkout --ours .github/workflows/tmodloader-stable-check.yml
         git checkout --ours docker-compose.yml
-        git add .github/workflows/custom-build.yml .github/workflows/manual-run.yml .github/workflows/rebuild-container.yml .github/workflows/repo-update.yml .github/workflows/sync-upstream.yml .github/workflows/tmodloader-check.yml .github/workflows/tmodloader-stable-check.yml
+        git add .github/workflows/custom-build.yml .github/workflows/manual-run.yml .github/workflows/rebuild-container.yml .github/workflows/repo-update.yml .github/workflows/sync-upstream.yml .github/workflows/tmodloader-check.yml .github/workflows/tmodloader-stable-check.yml docker-compose.yml
         git commit --amend --no-edit
 
     - name: Checkout Docker Compose and Build Containers
