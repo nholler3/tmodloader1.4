@@ -1,0 +1,36 @@
+name: Rebuild tModLoader Container on New Stable Image Push
+on:
+  registry_package:
+    types: [created]  # Triggered when a new image is pushed to the Docker Hub repository
+    branches:
+      - 'main'  # Optional: adjust this to match your target branch for Docker Hub images
+    package:
+      name: ${{ secrets.DOCKER_USER }}/tmodloader1.4  # Your image's name on Docker Hub
+
+jobs:
+  rebuild-container:
+    runs-on: homelab-optiplex7050
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+    - name: Pull Latest Image from Docker Hub
+      run: |
+        docker pull ${{ secrets.DOCKER_USER }}/tmodloader1.4:latest
+
+    - name: Rebuild Docker Container with Docker Compose
+      run: |
+        # Rebuilds the container using Docker Compose while preserving the data
+        docker-compose -f docker-compose.yml down  # Stop and remove existing container
+        docker-compose -f docker-compose.yml up -d  # Rebuilds and starts the container in detached mode
+
+    - name: Verify Container is Running
+      run: |
+        docker ps  # Optional: Verify the container is running and the correct image is used
