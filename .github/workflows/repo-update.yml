@@ -6,7 +6,7 @@ on:
 jobs:
   if_merged:
     if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
+    runs-on: homelab-optiplex7050
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
