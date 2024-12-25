@@ -12,7 +12,7 @@ on:
         type: boolean
 jobs:
   manual-run:
-    runs-on: ubuntu-latest
+    runs-on: homelab-optiplex7050
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
