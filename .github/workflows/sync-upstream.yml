@@ -35,8 +35,8 @@ jobs:
     - name: Preserve Custom Files
       run: |
         # Check and restore custom workflows and docker-compose if needed
-        git checkout --ours path/to/custom-workflow.yml
-        git checkout --ours path/to/docker-compose.yml
+        git checkout --ours .github/workflows/*
+        git checkout --ours docker-compose.yml
         git add path/to/custom-workflow.yml path/to/docker-compose.yml
         git commit --amend --no-edit
 
