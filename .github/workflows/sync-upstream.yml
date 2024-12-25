@@ -1,0 +1,53 @@
+name: Sync Fork with Upstream and Rebuild Container
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Run once a day at 3 AM
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  sync-upstream:
+    runs-on: homelab-optiplex7050
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Add Upstream Remote
+      run: git remote add upstream https://github.com/OriginalOwner/ParentRepo.git
+
+    - name: Fetch Upstream Changes
+      run: git fetch upstream
+
+    - name: Check for New Commits
+      run: |
+        git log HEAD..upstream/main --oneline
+        if [ $? -eq 0 ]; then
+          echo "No new commits from upstream"
+          exit 0
+        fi
+
+    - name: Merge Upstream Changes into Fork
+      run: |
+        git checkout main
+        git merge upstream/main --no-edit
+        git push origin main
+
+    - name: Preserve Custom Files
+      run: |
+        # Check and restore custom workflows and docker-compose if needed
+        git checkout --ours path/to/custom-workflow.yml
+        git checkout --ours path/to/docker-compose.yml
+        git add path/to/custom-workflow.yml path/to/docker-compose.yml
+        git commit --amend --no-edit
+
+    - name: Checkout Docker Compose and Build Containers
+      run: |
+        # Use Docker Compose to rebuild containers after merging
+        docker-compose -f path/to/docker-compose.yml down  # Stop containers
+        docker-compose -f path/to/docker-compose.yml up --build -d  # Rebuild containers
+        docker-compose -f path/to/docker-compose.yml ps  # Show running containers
+
+    - name: Push Changes and Rebuild Container
+      run: |
+        # Push changes if needed, and confirm everything is running properly
+        git push origin main
