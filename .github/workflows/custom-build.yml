@@ -12,7 +12,7 @@ on:
         type: boolean
 jobs:
   manual-run:
-    runs-on: homelab-optiplex7050
+    runs-on: self-hosted
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
