@@ -9,7 +9,7 @@ on:
 
 jobs:
   rebuild-container:
-    runs-on: homelab-optiplex7050
+    runs-on: self-hosted
 
     steps:
     - name: Checkout Repository
