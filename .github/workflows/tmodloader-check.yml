@@ -4,7 +4,7 @@ on:
     - cron: '5 2 * * *'
 jobs:
   update-tmodloader-version:
-    runs-on: homelab-optiplex7050
+    runs-on: self-hosted
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
