@@ -8,17 +8,18 @@ services:
     expose:
       - "7777"
     environment:
-      # Download the Calamity mod and CalamityMusic mod.
-      - "TMOD_AUTODOWNLOAD=2824688072,2824688266"
+      # Download the Boss checklist, ore excavator, alchemist npc, magic storage & dependencies, thorium, 
+      # calamity vanities, quality of terraria 
+      - "TMOD_AUTODOWNLOAD=2669644269,2565639705,2599842771,2563309347,2908170107,2909886416,2824688804,2797518634"
       # Enable the Calamity mod and CalamityMusic mod.
-      - "TMOD_ENABLEDMODS=2824688072,2824688266"
+      - "TMOD_ENABLEDMODS=2669644269,2565639705,2599842771,2563309347,2908170107,2909886416,2824688804,2797518634"
       # Shutdown Message and Autosave Interval (In Minutes)
       - "TMOD_SHUTDOWN_MESSAGE=Goodbye!"
       - "TMOD_AUTOSAVE_INTERVAL=15"
       # Server Settings
       - "TMOD_MOTD=Welcome to the bel tModLoader Server!"
       - "TMOD_PASS=0000"
-      - "TMOD_MAXPLAYERS=10"
+      - "TMOD_MAXPLAYERS=8"
       # The following world settings are only used when generating a new world.
       - "TMOD_WORLDNAME=homie-thorium"
       - "TMOD_WORLDSIZE=3" #large world
@@ -30,10 +31,19 @@ services:
 
     volumes:
     ##### By default, the below setting will create a data directory on your host where this compose file lives.
-      - "./data:/home/nholler/Containers/Terraria/data/homie-thorium"
-      - "./mods:/home/nholler/Containers/Terraria/mods/homie-thorium"
-      - "./worlds:/home/nholler/Containers/Terraria/worlds/homie-thorium"
+      - "/home/nholler/Containers/Terraria/data/homie-thorium:/data:rw"
+      #- "/home/nholler/Containers/Terraria/mods/homie-thorium:/mods:rw"
+      #- "/home/nholler/Containers/Terraria/worlds/homie-thorium:/worlds:rw"
       # Uncomment the below line if you plan to use a mapped config file. 
       # - "/path/to/config/config.txt:/root/terraria-server/serverconfig.txt"
       #
     restart: unless-stopped
+    networks: 
+      - homelab_network
+
+
+networks:
+  homelab_network:
+    driver: bridge
+
+    
