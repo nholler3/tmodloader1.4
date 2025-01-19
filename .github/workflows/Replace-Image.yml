@@ -1,0 +1,46 @@
+name: Check Docker Image Updates
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at midnight
+  workflow_dispatch: # Allow manual triggering of the workflow
+
+jobs:
+  update-container:
+    runs-on: self-hosted
+    steps:
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+     # - name: Log in to Docker Hub
+     #   uses: docker/login-action@v2
+     #   with:
+     #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
+     #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Pull latest image metadata
+        run: |
+          IMAGE_NAME="JACOBSMILE/tmodloader1.4"
+          LATEST_DIGEST=$(docker manifest inspect $IMAGE_NAME | jq -r '.Descriptor.digest')
+          echo "LATEST_DIGEST=${LATEST_DIGEST}" >> $GITHUB_ENV
+
+      - name: Get running container's image digest
+        run: |
+          CONTAINER_NAME="tmodloader"
+          RUNNING_DIGEST=$(docker inspect --format='{{.Image}}' $CONTAINER_NAME | xargs docker inspect --format='{{index .RepoDigests 0}}' | awk -F@ '{print $2}')
+          echo "RUNNING_DIGEST=${RUNNING_DIGEST}" >> $GITHUB_ENV
+
+      - name: Compare digests and pull/update if needed
+        run: |
+          if [ "$LATEST_DIGEST" != "$RUNNING_DIGEST" ]; then
+            echo "New image detected, pulling latest image..."
+            docker compose down
+            docker pull JACOBSMILE/tmodloader1.4
+            docker compose up -d
+          else
+            echo "No update needed. Running container is using the latest image."
+            #fix this to just do the restart  
+          fi
+
+      - name: Clean up unused Docker resources
+        run: docker system prune -f
