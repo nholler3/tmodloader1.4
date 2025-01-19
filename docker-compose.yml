@@ -9,10 +9,10 @@ services:
       - "7777"
     environment:
       # Download the Boss checklist, ore excavator, alchemist npc, magic storage & dependencies, thorium, 
-      # calamity vanities, quality of terraria 
-      - "TMOD_AUTODOWNLOAD=2669644269,2565639705,2599842771,2563309347,2908170107,2909886416,2824688804,2797518634"
+      # calamity vanities, quality of terraria, wing slot  
+      - "TMOD_AUTODOWNLOAD=2669644269,2565639705,2599842771,2563309347,2908170107,2909886416,2824688804,2797518634,2597324266"
       # Enable the Calamity mod and CalamityMusic mod.
-      - "TMOD_ENABLEDMODS=2669644269,2565639705,2599842771,2563309347,2908170107,2909886416,2824688804,2797518634"
+      - "TMOD_ENABLEDMODS=2669644269,2565639705,2599842771,2563309347,2908170107,2909886416,2824688804,2797518634,2597324266"
       # Shutdown Message and Autosave Interval (In Minutes)
       - "TMOD_SHUTDOWN_MESSAGE=Goodbye!"
       - "TMOD_AUTOSAVE_INTERVAL=15"
